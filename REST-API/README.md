@@ -31,7 +31,7 @@ Subsequent response definitions will only detail the expected value of the `data
         },
         {
             "user" : "Gon",
-            "temperature" : 68,
+            "temperature" : 69,
             "LED": "oyster"
         }
     ]
@@ -56,7 +56,7 @@ Subsequent response definitions will only detail the expected value of the `data
 ```json
 {
     "user" : "Gon",
-    "temperature" : 68,
+    "temperature" : 69,
     "LED": null,
 }
 ```
