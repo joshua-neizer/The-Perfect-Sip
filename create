@@ -1,5 +1,0 @@
-file=$1
-
-touch $file
-
-ln -s ~/code/MY_API/$file ~/html/.API/$file

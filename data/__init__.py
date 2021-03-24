@@ -23,7 +23,7 @@ settings = ['temperature', 'LED']
 
 # function freezes and saves the hashmap object to a pickle file
 def saveData():
-    pickle.dump(hashID, open("data/hash_map.p", "wb") )
+    pickle.dump(hashUser, open("data/hash_map.p", "wb") )
 
 # function opens the photos database file to be interacted with
 def get_db():
@@ -78,35 +78,41 @@ class UserData(Resource):
 
         # Parses the request for given arguments
         parser.add_argument('user', required=True)
+        parser.add_argument('temperature', required=False)
+        parser.add_argument('LED', required=False)
 
         #Parse the arguments into an object
         args = parser.parse_args()
 
-        user = args ['user']
+        user = str(args ['user'])
 
-        if hasUser.search(user) == -1:
+        if hashUser.search(user) == -1:
             hashUser.generate(user)
             
             data = {}
+            data ['user'] = user
 
             for key in settings:
                 data [key] = None
 
-            shelf[user] = data
+            shelf[str(hashUser.search(user))] = data
+
+            # Freezes and saves the hashmap object to the pickle file
+            saveData()
         
         else:
-            userData = shelf[hashUser.search(user)]
+            userID = str(hashUser.search(user))
+            userData = dict(shelf[userID])
 
-            keys = list(args.keys()).remove('user')
+            keys = [k for k in args.keys() if k != 'user']
 
             for key in keys:
-                try: 
-                    shelf [user] [key] == arg [key]
-                except:
-                    pass
+                userData [key] = args [key]
+
+            shelf [userID] = userData
+
+            
         
-        # Freezes and saves the hashmap object to the pickle file
-        saveData()
         
         # On success, returns a 201 status
         return {'message' : 'User data updated', 'data' : args}, 201
@@ -118,23 +124,23 @@ class User(Resource):
     def get(self, user):
         shelf = get_db()
         
-        if hasUser.search(user) == -1:
+        if hashUser.search(user) == -1:
             return {'message': 'User Not Found', 'data' : {}}, 200
         
         
         # On success, returns a 200 status
-        return {'message': 'User Found', 'data' : shelf[hashUser.search(user)]}, 200
+        return {'message': 'User Found', 'data' : shelf[str(hashUser.search(user))]}, 200
 
 
     # DELETE request deleetes photo from the database based on identifier
     def delete(self, user):
         # Deletes identfier from hashmap and saves the object
-        if hasUser.search(user) == -1:
+        if hashUser.search(user) == -1:
              return {'message':'User not found', 'data':{}}, 404
 
-        userID = hasUser.search(user)
+        userID = str(hashUser.search(user))
 
-        hashID.array [userID] = -1
+        hashUser.array [userID] = -1
         saveData()
 
         shelf = get_db()
@@ -145,5 +151,5 @@ class User(Resource):
         # On success, returns 204 status
         return '', 204
 
-api.add_resource(PhotoList, '/photos')
-api.add_resource(Photo, '/photos/<string:identifier>')
+api.add_resource(UserData, '/users')
+api.add_resource(User, '/users/<string:identifier>')
