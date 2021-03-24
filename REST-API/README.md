@@ -1,4 +1,4 @@
-# Photo Registry Service
+# User Registry Service
 
 ## Usage
 
@@ -13,11 +13,11 @@ All responses will have the form
 
 Subsequent response definitions will only detail the expected value of the `data field`
 
-### List of all photos
+### List of all users
 
 **Definition**
 
-`GET /photos`
+`GET /users`
 
 **Response**
 - `200 OK` on success
@@ -25,35 +25,29 @@ Subsequent response definitions will only detail the expected value of the `data
 ```json
     [
         {
-            "identifier" : "4432343",
-            "file_name" : "Josh_Portrait.jpg",
-            "date_modified": "2020-03-06 1:33 PM",
-            "size" : "12KB",
-            "descriptor" : "person"
+            "user" : "Josh",
+            "temperature" : 72,
+            "LED": "red"
         },
         {
-            "identifier" : "5552213",
-            "file_name" : "dog.jpg",
-            "date_modified": "2020-01-17 10:14 AM",
-            "size" : "2000KB",
-            "descriptor" : "dog"
+            "user" : "Gon",
+            "temperature" : 68,
+            "LED": "oyster"
         }
     ]
 ```
 
-### Registering a new photo
+### Registering a new user
 
 **Definition**
 
-`POST /photos`
+`POST /users`
 
 **Arguments**
 
-- `"identifier":integer` a globally unique identifier for this photo
-- `"file_name":string` a friendly name for this file
-- `"date_modified":string` the date the file was last modified
-- `"size":string` the size of the photo in KB
-- `"descriptor":string` a word one description describing the contents of the photo
+- `"user":string` the username chosen for the user
+- `"temperature":integer` the temperature set for the hot beverage
+- `"LED":string` the desired colour for the LED
 
 **Response**
 
@@ -61,41 +55,37 @@ Subsequent response definitions will only detail the expected value of the `data
 
 ```json
 {
-    "identifier" : "4432343",
-    "file_name" : "Josh_Portrait.jpg",
-    "date_modified": "2020-03-06 1:33 PM",
-    "size" : "12KB",
-    "descriptor" : "person"
+    "user" : "Gon",
+    "temperature" : 68,
+    "LED": null,
 }
 ```
 
-## Lookup photo details
+## Lookup user's details
 
-`GET /photos/<identifier>`
+`GET /users/<user_name>`
 
 **Response**
 
-- `404 Not Found` if the photo does not exist
+- `404 Not Found` if the user does not exist
 - `200 OK` on success
 
 ```json
 {
-    "identifier" : "4432343",
-    "file_name" : "Josh_Portrait.jpg",
-    "date_modified": "2020-03-06 1:33 PM",
-    "size" : "12KB",
-    "descriptor" : "person"
+    "user" : "Gon",
+    "temperature" : 69,
+    "LED": "oyster"
 }
 ```
 
-## Delete a photo
+## Delete a user
 
 **Definition**
 
-`DELETE /photos/<identifier>`
+`DELETE /users/<user_name>`
 
 **Response**
 
-- `404 Not Found` if the photo does not exist
+- `404 Not Found` if the user does not exist
 - `204 No Content` on success
 
