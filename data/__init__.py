@@ -111,9 +111,6 @@ class UserData(Resource):
 
             shelf [userID] = userData
 
-            
-        
-        
         # On success, returns a 201 status
         return {'message' : 'User data updated', 'data' : args}, 201
 
@@ -140,7 +137,7 @@ class User(Resource):
 
         userID = str(hashUser.search(user))
 
-        hashUser.array [userID] = -1
+        hashUser.array [hashUser.search(user)] = -1
         saveData()
 
         shelf = get_db()
@@ -152,4 +149,4 @@ class User(Resource):
         return '', 204
 
 api.add_resource(UserData, '/users')
-api.add_resource(User, '/users/<string:identifier>')
+api.add_resource(User, '/users/<string:user>')
