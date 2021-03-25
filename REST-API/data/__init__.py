@@ -49,12 +49,12 @@ def update_preferences(data):
         else:
             preference [key] = data [key]
     
-    with open('../preferences.json', 'w') as fp:
+    with open('../Arduino/preferences.json', 'w') as fp:
         json.dump(preference, fp)
 
 
 def run_arduino():
-    os.system('../../Arduino/make')
+    # os.system('../../Arduino/make')
     os.system('../../Arduino/start.sh')
 
 @app.teardown_appcontext
@@ -132,6 +132,9 @@ class UserData(Resource):
                 userData [key] = args [key]
 
             shelf [userID] = userData
+
+        update_preferences(shelf [userID])
+        # run_arduino()
 
         # On success, returns a 201 status
         return {'message' : 'User data updated', 'data' : args}, 201
