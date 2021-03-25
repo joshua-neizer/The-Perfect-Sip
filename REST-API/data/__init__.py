@@ -4,6 +4,7 @@ import markdown
 import os
 import shelve
 import pickle
+import json
 from Hash import Hash
 
 # Import the framework
@@ -21,6 +22,11 @@ hashUser = pickle.load( open( "data/hash_map.p", "rb" ) )
 
 settings = ['temperature', 'LED']
 
+default = {
+    'temperature' : 60,
+    'LED' : 'red'
+}
+
 # function freezes and saves the hashmap object to a pickle file
 def saveData():
     pickle.dump(hashUser, open("data/hash_map.p", "wb") )
@@ -32,8 +38,24 @@ def get_db():
         db = g._database = shelve.open("user_data.db")
     return db 
 
-def update_state(data):
-    pass
+def update_preferences(data):
+    preference = {}
+
+    keys = [k for k in data.keys() if k != 'user']
+
+    for key in keys:
+        if data [key] == None:
+            preference [key] = default [key]
+        else:
+            preference [key] = data [key]
+    
+    with open('../preferences.json', 'w') as fp:
+        json.dump(preference, fp)
+
+
+def run_arduino():
+    os.system('../../Arduino/make')
+    os.system('../../Arduino/start.sh')
 
 @app.teardown_appcontext
 def teardown_db(exception):
