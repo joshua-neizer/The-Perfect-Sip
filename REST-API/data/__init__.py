@@ -85,7 +85,7 @@ class UserData(Resource):
             users.append(shelf[key])
         
         # On success, returns a 200 status
-        return {'message': 'Success', 'data' : users}, 200
+        return {'message': 'Success', 'data' : dict(shelf)}, 200
     
 
     # POST request to photos appends new photo to the database
@@ -102,6 +102,7 @@ class UserData(Resource):
         args = parser.parse_args()
 
         user = str(args ['user'])
+        userID = str(hashUser.search(user))
 
         if hashUser.search(user) == -1:
             hashUser.generate(user)
@@ -118,7 +119,7 @@ class UserData(Resource):
             saveData()
         
         else:
-            userID = str(hashUser.search(user))
+            
             userData = dict(shelf[userID])
 
             keys = [k for k in args.keys() if k != 'user']
@@ -160,7 +161,6 @@ class User(Resource):
         saveData()
 
         shelf = get_db()
-           
 
         del shelf[userID]
         
