@@ -1,4 +1,5 @@
 #!/bin/bash
+cd Arduino
 
 ### Set initial time of file
 LTIME=`stat -c %Z preferences.json`
