@@ -4,6 +4,7 @@ import markdown
 import os
 import shelve
 import pickle
+import json
 from Hash import Hash
 
 # Import the framework
@@ -21,6 +22,11 @@ hashUser = pickle.load( open( "data/hash_map.p", "rb" ) )
 
 settings = ['temperature', 'LED']
 
+default = {
+    'temperature' : 60,
+    'LED' : 'red'
+}
+
 # function freezes and saves the hashmap object to a pickle file
 def saveData():
     pickle.dump(hashUser, open("data/hash_map.p", "wb") )
@@ -32,8 +38,19 @@ def get_db():
         db = g._database = shelve.open("user_data.db")
     return db 
 
-def update_state(data):
-    pass
+def update_preferences(data):
+    preference = {}
+
+    keys = [k for k in data.keys() if k != 'user']
+
+    for key in keys:
+        if data [key] == None:
+            preference [key] = default [key]
+        else:
+            preference [key] = data [key]
+    
+    with open('preferences.json', 'w') as fp:
+        json.dump(preference, fp)
 
 @app.teardown_appcontext
 def teardown_db(exception):
@@ -68,7 +85,7 @@ class UserData(Resource):
             users.append(shelf[key])
         
         # On success, returns a 200 status
-        return {'message': 'Success', 'data' : users}, 200
+        return {'message': 'Success', 'data' : dict(shelf)}, 200
     
 
     # POST request to photos appends new photo to the database
@@ -85,6 +102,7 @@ class UserData(Resource):
         args = parser.parse_args()
 
         user = str(args ['user'])
+        userID = str(hashUser.search(user))
 
         if hashUser.search(user) == -1:
             hashUser.generate(user)
@@ -101,7 +119,7 @@ class UserData(Resource):
             saveData()
         
         else:
-            userID = str(hashUser.search(user))
+            
             userData = dict(shelf[userID])
 
             keys = [k for k in args.keys() if k != 'user']
@@ -110,6 +128,8 @@ class UserData(Resource):
                 userData [key] = args [key]
 
             shelf [userID] = userData
+
+        update_preferences(shelf [userID])
 
         # On success, returns a 201 status
         return {'message' : 'User data updated', 'data' : args}, 201
@@ -141,7 +161,6 @@ class User(Resource):
         saveData()
 
         shelf = get_db()
-           
 
         del shelf[userID]
         
