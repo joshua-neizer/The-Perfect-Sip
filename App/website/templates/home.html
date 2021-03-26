@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% block title %}Mug Customization{% endblock %}
+{% block content %}
+<!--Sign up form-->
+<!--When this form is submitted, send a post request to the backend-->
+<form method ="POST">
+    <h3 align="center">Mug Customization</h3>
+    <div class="form-group">
+        <label for="select-temperature">Temperature</label>
+        <input 
+            type="number" 
+            class="form-control"
+            id="select-temperature" 
+            name="select-temperature"
+            placeholder="Select temperature"
+        />
+    </div>
+    <div class="form-group">
+        <label for="led-color">LED color</label>
+        <input 
+            type="text" 
+            class="form-control"
+            id="led-color" 
+            name="led-color"
+            placeholder="Enter LED color"
+        />
+    </div>
+    <!--
+    <ul class = "list-group list-group-flush" id="settings">
+        {% for setting in user.settings%}
+        <li class = "list-group-item">{{setting.temperature, setting.ledcolor}}</li>
+        {% endfor %}
+    </ul>
+    -->
+    <br />
+    <button type ="submit" class = "btn btn-primary">Confirm</button>
+</form>
+{% endblock %}
