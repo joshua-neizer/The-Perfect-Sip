@@ -18,13 +18,14 @@ def home():
     if(request.method == 'POST'):
         temperature = int(request.form.get('select-temperature'))
         ledcolor = request.form.get('led-color')
+        lcolor = tuple(int(ledcolor[i:i+2], 16) for i in (0, 2, 4))
 
         if int(temperature) > 80:
             flash('Temperature too high!', category='error')
         if int(temperature) < 60:
             flash('Temperature too low!', category='error')
         else:
-            r = requests.post('http://184.148.145.47:5000/users', params={'user': current_user.first_name, 'temperature': temperature, 'LED' : ledcolor})
+            r = requests.post('http://184.148.145.47:5000/users', params={'user': current_user.first_name, 'temperature': temperature, 'LED' : lcolor})
             flash('Setting added!', category='success')
             '''
             new_setting = Settings(temperature=temperature,ledcolor=ledcolor,user_id=current_user.id)
