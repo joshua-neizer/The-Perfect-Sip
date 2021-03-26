@@ -1,13 +1,23 @@
-const char* temperature; // "77"
-const char* LED; // "Purple"
+const String LED = "Lightning";
+const int temperature = 7;
+int ledPin = 13;
+int blinkTime = 250;
 
-void setup() {
-  Serial.begin(9600); // open the serial port at 9600 bps:
+void setup(){
+  pinMode(ledPin, OUTPUT);
+   // 5 is number of blinks, blinkTime is the milliseconds in each state from above: int blinkTime = 500;
 }
 
-void loop() {
-  Serial.print(temperature);
-  Serial.print(LED);
+void loop(){
+  blinkyBlinky(temperature, blinkTime); // 5 is number of blinks, blinkTime is the milliseconds in each state from above: int blinkTime = 500;
+  delay(2000);
 }
 
-void subroutinename() {}
+void blinkyBlinky(int repeats, int time){
+  for (int i = 0; i < repeats; i++){
+    digitalWrite(ledPin, HIGH);
+    delay(time);
+    digitalWrite(ledPin, LOW);
+    delay(time);
+  }
+}
