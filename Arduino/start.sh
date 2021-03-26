@@ -1,7 +1,5 @@
 #!/bin/bash
 
-alias 'arduino-cli'='~/go/src/github.com/arduino/arduino-cli/bin/arduino-cli'
-
 # Updates the arduino code
 python3 update-arduino.py
 
