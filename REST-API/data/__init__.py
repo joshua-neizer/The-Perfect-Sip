@@ -20,11 +20,11 @@ api = Api(app)
 # Loads the saved hashmap to continue where the API left off
 hashUser = pickle.load( open( "data/hash_map.p", "rb" ) )
 
-settings = ['temperature', 'LED']
+settings = ['temperature', 'RGB']
 
 default = {
     'temperature' : 60,
-    'LED' : 'red'
+    'RGB' : '(255, 0, 0)'
 }
 
 # function freezes and saves the hashmap object to a pickle file
@@ -83,6 +83,7 @@ class UserData(Resource):
 
         for key in keys:
             users.append(shelf[key])
+            # del shelf [key]
         
         # On success, returns a 200 status
         return {'message': 'Success', 'data' : dict(shelf)}, 200
@@ -96,16 +97,17 @@ class UserData(Resource):
         # Parses the request for given arguments
         parser.add_argument('user', required=True)
         parser.add_argument('temperature', required=False)
-        parser.add_argument('LED', required=False)
+        parser.add_argument('RGB', required=False)
 
         #Parse the arguments into an object
         args = parser.parse_args()
 
         user = str(args ['user'])
-        userID = str(hashUser.search(user))
+        
 
         if hashUser.search(user) == -1:
             hashUser.generate(user)
+            userID = str(hashUser.search(user))
             
             data = {}
             data ['user'] = user
@@ -113,13 +115,13 @@ class UserData(Resource):
             for key in settings:
                 data [key] = None
 
-            shelf[str(hashUser.search(user))] = data
+            shelf[userID] = data
 
             # Freezes and saves the hashmap object to the pickle file
             saveData()
         
         else:
-            
+            userID = str(hashUser.search(user))
             userData = dict(shelf[userID])
 
             keys = [k for k in args.keys() if k != 'user']

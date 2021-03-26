@@ -1,11 +1,11 @@
 import json
+import re
 
 def updateLine(name, value):
-    try:
-        int(value)
+    if name == 'RGB':
+        return 'const int ' + name + '[] = {' + str(re.findall("[0-9]+, [0-9]+, [0-9]+", value)[0]) + '};\n'
+    elif name == 'temperature':
         return 'const int ' + name + ' = ' + str(value) + ';\n'
-    except:
-        return 'const String ' + name + ' = "' + value + '";\n'
 
 jsonFile = './preferences.json'
 ArduinoFile = './run/run.ino'

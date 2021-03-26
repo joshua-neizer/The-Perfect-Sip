@@ -1,23 +1,30 @@
-const String LED = "Lightning";
-const int temperature = 7;
-int ledPin = 13;
+const int temperature = 3;
+const int RGB[] = {218, 165, 32};
+const int redPin = 11;
+const int greenPin = 10;
+const int bluePin = 9;
 int blinkTime = 250;
 
-void setup(){
-  pinMode(ledPin, OUTPUT);
-   // 5 is number of blinks, blinkTime is the milliseconds in each state from above: int blinkTime = 500;
+void setup() {
+  pinMode(redPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
 }
 
-void loop(){
-  blinkyBlinky(temperature, blinkTime); // 5 is number of blinks, blinkTime is the milliseconds in each state from above: int blinkTime = 500;
+void loop() {
+  blinkyBlinky(temperature, blinkTime);
   delay(2000);
 }
 
-void blinkyBlinky(int repeats, int time){
-  for (int i = 0; i < repeats; i++){
-    digitalWrite(ledPin, HIGH);
+void blinkyBlinky(int repeats, int time) {
+  for (int i = 0; i < repeats; i++) {
+    analogWrite(redPin, RGB[0]);
+    analogWrite(greenPin, RGB[1]);
+    analogWrite(bluePin, RGB[2]);
     delay(time);
-    digitalWrite(ledPin, LOW);
+    analogWrite(redPin, 0);
+    analogWrite(greenPin, 0);
+    analogWrite(bluePin, 0);
     delay(time);
   }
 }
