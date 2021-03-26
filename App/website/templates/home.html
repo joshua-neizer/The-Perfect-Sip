@@ -15,13 +15,13 @@
         />
     </div>
     <div class="form-group">
-        <label for="led-color">LED color</label>
+        <label for="led-color">LED color (RGB)</label>
         <input 
-            type="text" 
+            type="color" 
             class="form-control"
             id="led-color" 
             name="led-color"
-            placeholder="Enter LED color"
+            placeholder="Enter LED color in RGB format"
         />
     </div>
     <!--
@@ -33,5 +33,18 @@
     -->
     <br />
     <button type ="submit" class = "btn btn-primary">Confirm</button>
+</form>
+<br />
+<form method="GET">
+    <div class="form-group">
+        <label for="Coffee amount">Coffee amount</label>
+        <input 
+            type="number" 
+            class="form-control"
+            id="coffee-amount" 
+            name="coffee-amount"
+            placeholder="Amount of Coffee left"
+        />
+    </div>
 </form>
 {% endblock %}
