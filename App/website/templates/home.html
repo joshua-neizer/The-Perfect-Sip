@@ -1,5 +1,6 @@
 {% extends "base.html" %} {% block title %}Mug Customization{% endblock %}
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!--Sign up form-->
 <!--When this form is submitted, send a post request to the backend-->
 <form method ="POST">
@@ -35,16 +36,26 @@
     <button type ="submit" class = "btn btn-primary">Confirm</button>
 </form>
 <br />
-<form method="GET">
-    <div class="form-group">
-        <label for="Coffee amount">Coffee amount</label>
-        <input 
-            type="number" 
-            class="form-control"
-            id="coffee-amount" 
-            name="coffee-amount"
-            placeholder="Amount of Coffee left"
-        />
-    </div>
-</form>
+
+<h4> {{ curenTemp }}</h4>
+<body>
+    <ul class="temp"></ul>
+</body>
+<script>
+function fetch() {
+    $.ajax({
+        url: 'http://184.148.145.47:5000/users/',
+        type: "GET",
+        dataType: "JSON",
+        data:JSON.stringify({}),
+        success: function(data) {
+            $('#temp').append("<li>" + JSON.stringify(data) + "<li>")
+        },
+         complete: function() {
+       // Schedule the next request when the current one's complete
+       setInterval(sendRequest, 5000); // The interval set to 5 seconds
+     }
+    })
+}
+</script>
 {% endblock %}
