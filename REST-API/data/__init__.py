@@ -56,6 +56,10 @@ def update_preferences(data):
     with open('preferences.json', 'w') as fp:
         json.dump(preference, fp)
 
+def getSD():
+    with open('sensor_data.json') as f:
+        return json.load(f)
+
 @app.teardown_appcontext
 def teardown_db(exception):
     db = getattr(g, '_database', None)
@@ -153,9 +157,13 @@ class User(Resource):
         if hashUser.search(user) == -1:
             return {'message': 'User Not Found', 'data' : {}}, 200
         
-        
+        userData = dict(shelf[str(hashUser.search(user))])
+        sensorData = getSD()
+        userData ['temperature'] = sensorData ['temperature']
+        userData ['volume'] = sensorData ['volume']
+
         # On success, returns a 200 status
-        return {'message': 'User Found', 'data' : shelf[str(hashUser.search(user))]}, 200
+        return {'message': 'User Found', 'data' : userData}, 200
 
 
     # DELETE request deleetes photo from the database based on identifier

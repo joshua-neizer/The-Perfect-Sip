@@ -7,11 +7,11 @@
 #define ONE_WIRE_BUS 13
 
 //preferences
-int range = 3;
-int P_RGB[] = {152, 251, 152};
-int C_RGB[] = {255, 69, 0};
 int des_temp = 25;
 int H_RGB[] = {255, 0, 255};
+int P_RGB[] = {152, 251, 152};
+int C_RGB[] = {255, 69, 0};
+int range = 3;
 
 int distance_cm;
 
@@ -50,11 +50,9 @@ void loop() {
   sensors.requestTemperatures();
   Celcius = sensors.getTempCByIndex(0);
   Fahrenheit = sensors.toFahrenheit(Celcius);
-  Serial.print(" C  ");
+  Serial.print("Celcius ");
   Serial.print(Celcius);
-  Serial.print(" F  ");
-  Serial.println(Fahrenheit);
-  Serial.println("");
+  Serial.println(" ");
 
   if (distance_cm <= 40) {
     if (Celcius + range < des_temp) {

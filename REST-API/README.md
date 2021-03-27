@@ -89,7 +89,9 @@ Subsequent response definitions will only detail the expected value of the `data
     "range": "5",
     "C_RGB": "(255, 69, 0)",
     "P_RGB": "(152, 251, 152)",
-    "H_RGB": "(255, 0, 255)"
+    "H_RGB": "(255, 0, 255)",
+    "temperature": "19.37 C",
+    "volume": "23 ml"
 }
 ```
 
