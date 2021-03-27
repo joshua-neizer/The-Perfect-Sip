@@ -2,13 +2,13 @@ import json
 import re
 
 def updateLine(name, value):
-    if name == 'RGB':
-        return 'const int ' + name + '[] = {' + str(re.findall("[0-9]+, [0-9]+, [0-9]+", value)[0]) + '};\n'
-    elif name == 'temperature':
-        return 'const int ' + name + ' = ' + str(value) + ';\n'
+    if 'RGB' in name:
+        return 'int ' + name + '[] = {' + str(re.findall("[0-9]+, [0-9]+, [0-9]+", value)[0]) + '};\n'
+    else:
+        return 'int ' + name + ' = ' + str(value) + ';\n'
 
 jsonFile = './preferences.json'
-ArduinoFile = './run/run.ino'
+ArduinoFile = './IR_TempTest/IR_TempTest.ino'
 
 
 
@@ -20,7 +20,7 @@ with open(ArduinoFile, 'r') as file:
     # read a list of lines into data
     data = file.readlines()
 
-i = 0
+i = 9
 keys = list(preference.keys())
 for key in keys:
     data [i] = updateLine(key, preference[key])

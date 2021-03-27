@@ -20,11 +20,15 @@ api = Api(app)
 # Loads the saved hashmap to continue where the API left off
 hashUser = pickle.load( open( "data/hash_map.p", "rb" ) )
 
-settings = ['temperature', 'RGB']
+settings = ['des_temp', 'range', 'C_RGB', 'P_RGB', 'H_RGB']
 
 default = {
-    'temperature' : 60,
-    'RGB' : '(255, 0, 0)'
+    'des_temp' : 60,
+    'range' : 3,
+    'C_RGB' : '(0, 0, 255)',
+    'P_RGB' : '(0, 255, 0)',
+    'H_RGB' : '(255, 0, 0)',
+
 }
 
 # function freezes and saves the hashmap object to a pickle file
@@ -96,8 +100,11 @@ class UserData(Resource):
 
         # Parses the request for given arguments
         parser.add_argument('user', required=True)
-        parser.add_argument('temperature', required=False)
-        parser.add_argument('RGB', required=False)
+        parser.add_argument('des_temp', required=False)
+        parser.add_argument('range', required=False)
+        parser.add_argument('C_RGB', required=False)
+        parser.add_argument('P_RGB', required=False)
+        parser.add_argument('H_RGB', required=False)
 
         #Parse the arguments into an object
         args = parser.parse_args()

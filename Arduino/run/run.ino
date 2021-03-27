@@ -1,5 +1,5 @@
+const int RGB[] = {0, 0, 255};
 const int temperature = 3;
-const int RGB[] = {218, 165, 32};
 const int redPin = 11;
 const int greenPin = 10;
 const int bluePin = 9;
