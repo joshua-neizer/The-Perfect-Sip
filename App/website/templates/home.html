@@ -1,9 +1,19 @@
 {% extends "base.html" %} {% block title %}Mug Customization{% endblock %}
 {% block content %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript"
+src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.5.js" type="text/javascript"></script>
 <!--Sign up form-->
 <!--When this form is submitted, send a post request to the backend-->
+
 <form method ="POST">
+
     <h3 align="center">Mug Customization</h3>
     <div class="form-group">
         <label for="select-temperature">Temperature</label>
@@ -33,29 +43,153 @@
     </ul>
     -->
     <br />
-    <button type ="submit" class = "btn btn-primary">Confirm</button>
-</form>
-<br />
+    <button type ="submit" class = "btn btn-primary">Confirm</button>    
 
-<h4> {{ curenTemp }}</h4>
-<body>
-    <ul class="temp"></ul>
-</body>
-<script>
+    
+
+<!--
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  setInterval(fetch, 5000);
+});
 function fetch() {
+    //var $temp = $('#currTemp')
+    console.log('here')
+    alert("here")
     $.ajax({
-        url: 'http://184.148.145.47:5000/users/',
+        url: 'http://184.148.145.47:5000/users',
         type: "GET",
-        dataType: "JSON",
+        dataType: "json",
         data:JSON.stringify({}),
+        //headers: {
+        //'Content-Type': 'application/x-www-form-urlencoded'
+        //},
+        crossDomain: true,
         success: function(data) {
-            $('#temp').append("<li>" + JSON.stringify(data) + "<li>")
-        },
-         complete: function() {
+            //$('#temp').append("<li>" + JSON.stringify(data) + "<li>")
+            //document.getELementById('current') = JSON.stringify(data)
+            //.append("<li>" + JSON.stringify(data) + "<li>")
+            
+            alert(data);
+            //document.getELementById('temp')textContent = data;
+            $('temp').innerHTML = data;
+            
+
+        }//,
+         //complete: function() {
        // Schedule the next request when the current one's complete
-       setInterval(sendRequest, 5000); // The interval set to 5 seconds
-     }
-    })
+        // The interval set to 5 seconds
+     });
+    
+}
+
+</script>
+-->
+</form>
+<body>
+<!--
+<script type="text/javascript">
+if(typeof(EventSource) !== "undefined") {
+  var source = new EventSource('http://184.148.145.47:5000/users');
+  source.onmessage = function(event) {
+    document.getElementById("").innerHTML = event + "<br>";
+  };
+} else {
+  document.getElementById("curtemp").innerHTML = "Sorry, your browser does not support server-sent events...";
 }
 </script>
+-->
+
+</body>
+
+<body> 
+        <p>
+            Temperature: <span id="tep">  </span>
+        
+        </p>
+        <h4 id="temp" style="text-align:center;font-size:45px">{{currTemp}} °C</h4>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            .dot {
+            height: 25px;
+            width: 25px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            style="color:blue;"
+            }
+        </style>
+        <div style="text-align:center">
+            <i id='dot' class="fa fa-circle" style="font-size:30px;color:red"></i>
+            
+        </div>
+
+        
+        <script type="text/javascript">
+            alerted = false;
+        </script>
+        
+        <script type="text/javascript">
+            async function getTemp() {
+                console.log(alerted)
+                const header = {
+                    headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'multipart/form-data'
+                    //mode: 'no-cors'
+                }
+                };
+                const response = await fetch('http://184.148.145.47:5000/users/Luke');
+                //alert("YEs")
+                const data = await response.json();
+                //if (response.status !== 200) {
+                  //  throw Error(data.message);
+                //}
+                //else{
+                    
+                console.log(data.data);
+                //const mon = data.user
+                document.getElementById('temp').innerHTML = data.data.temperature + " °C";
+                //alert("YES!");
+                if (data.data.temperature === 20.9){
+                    //if (data.data.temperature === data.data.des_temp) {
+                    console.log("rgb"+data.data.P_RGB)
+                    document.getElementById('dot').style.color = "rgb"+data.data.P_RGB ;
+                    if (alerted === false){
+                        alert("Coffee Has Reached Desired Temperature. Enjoy Your Perfect Sip!");
+                        alerted = true;
+                    }
+
+                }
+
+                if (data.data.temperature > 20.7) {
+                    document.getElementById('dot').style.color = "rgb"+data.data.H_RGB ;
+                }
+
+                 if (data.data.temperature < 20.6) {
+                    document.getElementById('dot').style.color = "rgb"+data.data.C_RGB ;
+                }
+
+                
+               // }
+        
+                //alert(data);
+            }
+            //document.getTemp();
+            setInterval(getTemp, 5000);
+
+                
+
+        </script>
+        
+    
+    </body>
+
+<br />
+
+
+
 {% endblock %}
