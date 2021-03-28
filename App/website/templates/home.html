@@ -12,28 +12,101 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!--Sign up form-->
 <!--When this form is submitted, send a post request to the backend-->
 
-<form method ="POST">
+<div class="current-stats"> 
+    <h1 class="header">Currently.</h1> 
+    <div class="stats-grid">
+        <div class="stat">
+            <h1 class="stat-header">Temperature
+                <span id="tep"></span>
+            </h1>
+            <h4 id="temp" class="current-stat">{{currTemp}} °C</h4>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <style>
+                    .dot {
+                    height: 25px;
+                    width: 25px;
+                    background-color: #bbb;
+                    border-radius: 50%;
+                    display: inline-block;
+                    style="color:blue;"
+                    }
+                </style>
+            <div style="text-align:center">
+                <i id='dot' class="fa fa-circle" style="font-size:30px;color:red"></i>
+            </div>
+        </div>
+        <div class="stat">
+            <h1 class="stat-header">Volume
+                <span id="tep"></span>
+            </h1>
+            <h4 id="temp" class="current-stat">{{currVolume}} ml</h4>
+        </div>
+    </div>
+</div>
 
-    <h3 align="center">Mug Customization</h3>
+<form method ="POST" style="padding-top:100px">
+    <h1 align="center" class="header">Update Preferences.</h1>
     <div class="form-group">
-        <label for="select-temperature">Temperature</label>
-        <input 
-            type="number" 
-            class="form-control"
-            id="select-temperature" 
-            name="select-temperature"
-            placeholder="Select temperature"
-        />
+        <div class="temp-grid">
+            <div class="temp-range">
+                <label for="select-temperature">Set Temperature</label>
+                <input 
+                    type="number" 
+                    class="form-control"
+                    id="select-temperature" 
+                    name="select-temperature"
+                    placeholder="Select temperature"
+                    value="60"
+                />
+            </div>
+            <div class="temp-range">
+                <label for="select-range">Set Range</label>
+                <input 
+                    type="number" 
+                    class="form-control"
+                    id="select-range" 
+                    name="select-range"
+                    value="3"
+                />
+            </div>
+        </div>
     </div>
     <div class="form-group">
-        <label for="led-color">LED color (RGB)</label>
-        <input 
-            type="color" 
-            class="form-control"
-            id="led-color" 
-            name="led-color"
-            placeholder="Enter LED color in RGB format"
-        />
+        <div class="LED-grid">
+            <div class="LED">
+                <label for="led-color">Set <span style="color:dodgerblue">Cold</span> LED</label>
+                <input 
+                    type="color" 
+                    class="form-control LED-picker"
+                    id="led-color" 
+                    name="led-color"
+                    placeholder="Enter LED color in RGB format"
+                    id="C_RGB"
+                />
+            </div>
+            <div class="LED">
+                <label for="led-color">Set <span style="color:#07ad07">Perfect</span> LED</label>
+                <input 
+                    type="color" 
+                    class="form-control LED-picker"
+                    id="led-color" 
+                    name="led-color"
+                    placeholder="Enter LED color in RGB format"
+                    id="P_RGB"
+                />
+            </div>
+            <div class="LED">
+                <label for="led-color">Set <span style="color:red">High</span> LED</label>
+                <input 
+                    type="color" 
+                    class="form-control LED-picker"
+                    id="led-color" 
+                    name="led-color"
+                    placeholder="Enter LED color in RGB format"
+                    id="H_RGB"
+                />
+            </div>
+        </div>
     </div>
     <!--
     <ul class = "list-group list-group-flush" id="settings">
@@ -42,8 +115,9 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         {% endfor %}
     </ul>
     -->
-    <br />
-    <button type ="submit" class = "btn btn-primary">Confirm</button>    
+    <div style="width:100%;margin:auto;text-align: center;">
+        <button type ="submit" class = "btn btn-primary">Confirm</button>    
+    </div>
 
     
 
@@ -89,6 +163,59 @@ function fetch() {
 </script>
 -->
 </form>
+<script type="text/javascript">
+    alerted = false;
+</script>
+
+<script type="text/javascript">
+    async function getTemp() {
+        console.log(alerted)
+        const header = {
+            headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'multipart/form-data'
+            //mode: 'no-cors'
+        }
+        };
+        const response = await fetch('http://184.148.145.47:5000/users/Luke');
+        //alert("YEs")
+        const data = await response.json();
+        //if (response.status !== 200) {
+            //  throw Error(data.message);
+        //}
+        //else{
+            
+        console.log(data.data);
+        //const mon = data.user
+        document.getElementById('temp').innerHTML = data.data.temperature + " °C";
+        //alert("YES!");
+        if (data.data.temperature === 20.9){
+            //if (data.data.temperature === data.data.des_temp) {
+            console.log("rgb"+data.data.P_RGB)
+            document.getElementById('dot').style.color = "rgb"+data.data.P_RGB ;
+            if (alerted === false){
+                alert("Coffee Has Reached Desired Temperature. Enjoy Your Perfect Sip!");
+                alerted = true;
+            }
+
+        }
+
+        if (data.data.temperature > 20.7) {
+            document.getElementById('dot').style.color = "rgb"+data.data.H_RGB ;
+        }
+
+            if (data.data.temperature < 20.6) {
+            document.getElementById('dot').style.color = "rgb"+data.data.C_RGB ;
+        }
+
+        
+        // }
+
+        //alert(data);
+    }
+    //document.getTemp();
+    setInterval(getTemp, 5000);
+</script>
 <body>
 <!--
 <script type="text/javascript">
@@ -104,90 +231,6 @@ if(typeof(EventSource) !== "undefined") {
 -->
 
 </body>
-
-<body> 
-        <p>
-            Temperature: <span id="tep">  </span>
-        
-        </p>
-        <h4 id="temp" style="text-align:center;font-size:45px">{{currTemp}} °C</h4>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            .dot {
-            height: 25px;
-            width: 25px;
-            background-color: #bbb;
-            border-radius: 50%;
-            display: inline-block;
-            style="color:blue;"
-            }
-        </style>
-        <div style="text-align:center">
-            <i id='dot' class="fa fa-circle" style="font-size:30px;color:red"></i>
-            
-        </div>
-
-        
-        <script type="text/javascript">
-            alerted = false;
-        </script>
-        
-        <script type="text/javascript">
-            async function getTemp() {
-                console.log(alerted)
-                const header = {
-                    headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Content-Type': 'multipart/form-data'
-                    //mode: 'no-cors'
-                }
-                };
-                const response = await fetch('http://184.148.145.47:5000/users/Luke');
-                //alert("YEs")
-                const data = await response.json();
-                //if (response.status !== 200) {
-                  //  throw Error(data.message);
-                //}
-                //else{
-                    
-                console.log(data.data);
-                //const mon = data.user
-                document.getElementById('temp').innerHTML = data.data.temperature + " °C";
-                //alert("YES!");
-                if (data.data.temperature === 20.9){
-                    //if (data.data.temperature === data.data.des_temp) {
-                    console.log("rgb"+data.data.P_RGB)
-                    document.getElementById('dot').style.color = "rgb"+data.data.P_RGB ;
-                    if (alerted === false){
-                        alert("Coffee Has Reached Desired Temperature. Enjoy Your Perfect Sip!");
-                        alerted = true;
-                    }
-
-                }
-
-                if (data.data.temperature > 20.7) {
-                    document.getElementById('dot').style.color = "rgb"+data.data.H_RGB ;
-                }
-
-                 if (data.data.temperature < 20.6) {
-                    document.getElementById('dot').style.color = "rgb"+data.data.C_RGB ;
-                }
-
-                
-               // }
-        
-                //alert(data);
-            }
-            //document.getTemp();
-            setInterval(getTemp, 5000);
-
-                
-
-        </script>
-        
-    
-    </body>
-
 <br />
 
 
