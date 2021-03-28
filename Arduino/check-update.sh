@@ -1,5 +1,6 @@
 #!/bin/bash
 cd Arduino
+python3 getSerial.py &
 
 ### Set initial time of file
 LTIME=`stat -c %Z preferences.json`

@@ -20,11 +20,15 @@ api = Api(app)
 # Loads the saved hashmap to continue where the API left off
 hashUser = pickle.load( open( "data/hash_map.p", "rb" ) )
 
-settings = ['temperature', 'LED']
+settings = ['des_temp', 'range', 'C_RGB', 'P_RGB', 'H_RGB']
 
 default = {
-    'temperature' : 60,
-    'LED' : 'red'
+    'des_temp' : 60,
+    'range' : 3,
+    'C_RGB' : '(0, 0, 255)',
+    'P_RGB' : '(0, 255, 0)',
+    'H_RGB' : '(255, 0, 0)',
+
 }
 
 # function freezes and saves the hashmap object to a pickle file
@@ -51,6 +55,10 @@ def update_preferences(data):
     
     with open('preferences.json', 'w') as fp:
         json.dump(preference, fp)
+
+def getSD():
+    with open('sensor_data.json') as f:
+        return json.load(f)
 
 @app.teardown_appcontext
 def teardown_db(exception):
@@ -83,6 +91,7 @@ class UserData(Resource):
 
         for key in keys:
             users.append(shelf[key])
+            # del shelf [key]
         
         # On success, returns a 200 status
         return {'message': 'Success', 'data' : dict(shelf)}, 200
@@ -95,17 +104,21 @@ class UserData(Resource):
 
         # Parses the request for given arguments
         parser.add_argument('user', required=True)
-        parser.add_argument('temperature', required=False)
-        parser.add_argument('LED', required=False)
+        parser.add_argument('des_temp', required=False)
+        parser.add_argument('range', required=False)
+        parser.add_argument('C_RGB', required=False)
+        parser.add_argument('P_RGB', required=False)
+        parser.add_argument('H_RGB', required=False)
 
         #Parse the arguments into an object
         args = parser.parse_args()
 
         user = str(args ['user'])
-        userID = str(hashUser.search(user))
+        
 
         if hashUser.search(user) == -1:
             hashUser.generate(user)
+            userID = str(hashUser.search(user))
             
             data = {}
             data ['user'] = user
@@ -113,13 +126,13 @@ class UserData(Resource):
             for key in settings:
                 data [key] = None
 
-            shelf[str(hashUser.search(user))] = data
+            shelf[userID] = data
 
             # Freezes and saves the hashmap object to the pickle file
             saveData()
         
         else:
-            
+            userID = str(hashUser.search(user))
             userData = dict(shelf[userID])
 
             keys = [k for k in args.keys() if k != 'user']
@@ -144,9 +157,13 @@ class User(Resource):
         if hashUser.search(user) == -1:
             return {'message': 'User Not Found', 'data' : {}}, 200
         
-        
+        userData = dict(shelf[str(hashUser.search(user))])
+        sensorData = getSD()
+        userData ['temperature'] = sensorData ['temperature']
+        userData ['volume'] = sensorData ['volume']
+
         # On success, returns a 200 status
-        return {'message': 'User Found', 'data' : shelf[str(hashUser.search(user))]}, 200
+        return {'message': 'User Found', 'data' : userData}, 200
 
 
     # DELETE request deleetes photo from the database based on identifier
