@@ -8,7 +8,7 @@ def updateLine(name, value):
         return 'int ' + name + ' = ' + str(value) + ';\n'
 
 jsonFile = './preferences.json'
-ArduinoFile = './IR_TempTest/IR_TempTest.ino'
+ArduinoFile = './tps/tps.ino'
 
 
 

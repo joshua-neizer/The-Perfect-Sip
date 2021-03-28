@@ -11,6 +11,7 @@ def writeJSON(data):
 
 
 def calcVolume(height, radius):
+    print(height)
     return int(round(math.pi*(30-height)*radius**2, 0))
 
 
@@ -23,17 +24,11 @@ while (True):
         line = str(ser.readline())
         # print(line)
         if "distance" in line:
-            i += 1
             volume = calcVolume(int(line.split(" ") [2]), 5)
             sensor ['volume'] = str(volume) + " ml"
         elif "Celcius" in line:
-            i += 1
-            temp = round(float(line.split(" ") [1]), 2)
+            temp = round(float(line.split(" ") [1]), 1)
             sensor ['temperature'] = str(temp) + " C"
-
-        if (i > 1):
-            writeJSON(sensor)
-            time.sleep(10)
-            i == 0
+        writeJSON(sensor)
 
     
