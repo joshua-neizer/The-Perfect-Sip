@@ -3,13 +3,13 @@
 This is where all of the code for the mobile app is stored
 
 ## Installation
-To install the program run
+To install all of the dependencies for the program, open up your terminal in this directory and run the following command:
 ```
 pip install -r requirements.txt
 ```
 
 ## Running Flask
-To run the program, go to the terminal in this directory and run:
+To run the program, go to the terminal in this directory and run the following command:
 
 ### If you have python2.7 and python3
 ```
