@@ -1,6 +1,5 @@
 #!/bin/bash
 ./Arduino/check-update.sh &
-python3 ./Arduino/getSerial.py &
 
 cd REST-API
 # docker-compose down
