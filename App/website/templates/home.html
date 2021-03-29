@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block title %}Mug Customization{% endblock %}
+{% extends "base.html" %} {% block title %}Home{% endblock %}
 {% block content %}
 
 <script type="text/javascript"
@@ -12,6 +12,7 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!--Sign up form-->
 <!--When this form is submitted, send a post request to the backend-->
 
+<h1 class="intro-message"><span id="time"></span> {{user}}!</h1> 
 <div class="current-stats"> 
     <h1 class="header">Currently.</h1> 
     <div class="stats-grid">
@@ -78,7 +79,6 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                 <input 
                     type="color" 
                     class="form-control LED-picker"
-                    id="led-color" 
                     name="led-color"
                     placeholder="Enter LED color in RGB format"
                     id="C_RGB"
@@ -89,7 +89,6 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                 <input 
                     type="color" 
                     class="form-control LED-picker"
-                    id="led-color" 
                     name="led-color"
                     placeholder="Enter LED color in RGB format"
                     id="P_RGB"
@@ -100,7 +99,6 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                 <input 
                     type="color" 
                     class="form-control LED-picker"
-                    id="led-color" 
                     name="led-color"
                     placeholder="Enter LED color in RGB format"
                     id="H_RGB"
@@ -168,6 +166,31 @@ function fetch() {
 </script>
 
 <script type="text/javascript">
+    var time = new Date().getHours();
+    var greeting = 'Good '+ (time < 12 ? 'Morning' : 
+        time < 18 ? 'Afternoon' : 'Evening');
+
+    document.getElementById("time").innerHTML = greeting;
+
+    var url = 'http://192.168.2.64:5000/users/{{user}}';
+
+    async function setColours(){
+        var LED_Response = await fetch(url);
+        
+        var LED_data = await LED_Response.json();
+        LED_data = LED_data.data;
+        console.log(LED_data);
+
+        $("#C_RGB").val(LED_data.C_RGB == null ? "#0000FF" : LED_data.C_RGB);
+        $("#C_RGB").trigger('change');
+
+        $("#P_RGB").val(LED_data.P_RGB == null ? "#00FF00" : LED_data.P_RGB);
+        $("#P_RGB").trigger('change');
+
+        $("#H_RGB").val(LED_data.H_RGB == null ? "#FF0000" : LED_data.H_RGB);
+        $("#H_RGB").trigger('change');
+    }
+
     async function getTemp() {
         console.log(alerted)
         const header = {
@@ -177,14 +200,14 @@ function fetch() {
             //mode: 'no-cors'
         }
         };
-        const response = await fetch('http://184.148.145.47:5000/users/Luke');
+        const response = await fetch('http://192.168.2.64:5000/users/Luke');
         //alert("YEs")
         const data = await response.json();
         //if (response.status !== 200) {
             //  throw Error(data.message);
         //}
         //else{
-            
+
         console.log(data.data);
         //const mon = data.user
         document.getElementById('temp').innerHTML = data.data.temperature + " °C";
@@ -213,6 +236,8 @@ function fetch() {
 
         //alert(data);
     }
+
+    setColours();
     //document.getTemp();
     setInterval(getTemp, 5000);
 </script>
