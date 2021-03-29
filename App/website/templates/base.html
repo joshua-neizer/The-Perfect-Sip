@@ -18,10 +18,12 @@
             href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
             crossorigin="anonymous"
         />
+        <link rel="icon" href="{{ url_for('static', filename='assets/icon.ico') }}" />
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}"> 
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <title>{% block title %}Home{% endblock %}</title>
     </head>
     <!--Define a navbar and load a bunch of scripts-->
