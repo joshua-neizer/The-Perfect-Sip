@@ -51,7 +51,13 @@ def home():
         current_temp = data['data']['temperature']
         current_vol = data['data']['volume']
         #current_amount = r.json.user
-        return render_template("home.html", user=current_user.first_name, currTemp=current_temp, currVolume=current_vol)
+
+        try:
+            name = current_user.first_name
+        except:
+            name = ""
+
+        return render_template("home.html", user=name, currTemp=current_temp, currVolume=current_vol)
 
         
     #, user=current_user, curTemp = temperature)
