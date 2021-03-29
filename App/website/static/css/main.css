@@ -40,10 +40,18 @@
     padding-top: 100px;
 }
 
+h1.intro-message{
+    color: rgb(184, 184, 184);
+    font-size: 70px;
+    text-align: center;
+    letter-spacing: 5px;
+    padding-bottom: 50px;
+}
+
 h1.header{
     font-weight: bold;
     color: rgb(49, 49, 49);
-    font-size: 70px;
+    font-size: 60px;
     text-align: center;
     /* letter-spacing: 15px; */
 }
