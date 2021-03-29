@@ -45,12 +45,13 @@ def home():
             return render_template("home.html", user=current_user, temperature=temperature)
 
     if (request.method == 'GET'):
-        r = requests.get('http://184.148.145.47:5000/users/Josh' )#+ current_user.first_name)
+        r = requests.get('http://184.148.145.47:5000/users/Luke' )#+ current_user.first_name)
         data = r.json()
         #print(data)
         current_temp = data['data']['temperature']
+        current_vol = data['data']['volume']
         #current_amount = r.json.user
-        return render_template("home.html", user=current_user, currTemp=current_temp)
+        return render_template("home.html", user=current_user.first_name, currTemp=current_temp, currVolume=current_vol)
 
         
     #, user=current_user, curTemp = temperature)
