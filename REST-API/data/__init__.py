@@ -9,10 +9,13 @@ from Hash import Hash
 
 # Import the framework
 from flask import Flask, g
+from flask_cors import CORS, cross_origin
 from flask_restful import Resource, Api, reqparse
 
 # Create an instance of Flask
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 #Creat the API
 api = Api(app)
@@ -28,7 +31,6 @@ default = {
     'C_RGB' : '(0, 0, 255)',
     'P_RGB' : '(0, 255, 0)',
     'H_RGB' : '(255, 0, 0)',
-
 }
 
 # function freezes and saves the hashmap object to a pickle file
@@ -67,6 +69,7 @@ def teardown_db(exception):
         db.close()
 
 @app.route("/")
+@cross_origin(supports_credentials=True)
 def index():
     '''Present some documentation'''
 
