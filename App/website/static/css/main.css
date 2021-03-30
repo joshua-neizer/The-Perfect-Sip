@@ -104,6 +104,14 @@ h1.intro-message{
            transition:  all .25s ease-in-out;
 }
 
+h4.fact{
+    font-weight: bold;
+    color: rgb(93, 194, 93);
+    font-size: 20px;
+    text-align: center;
+    /* letter-spacing: 15px; */
+}
+
 h1.header{
     font-weight: bold;
     color: rgb(49, 49, 49);
@@ -111,6 +119,8 @@ h1.header{
     text-align: center;
     /* letter-spacing: 15px; */
 }
+
+
 
 div.stats-grid{
     display: flex;

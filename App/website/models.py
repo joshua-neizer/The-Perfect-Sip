@@ -9,7 +9,9 @@ from sqlalchemy.sql import func
 class Settings(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     temperature = db.Column(db.Integer)
-    ledcolor = db.Column(db.String(1000))
+    perfect = db.Column(db.String(1000))
+    hot = db.Column(db.String(1000))
+    
     #stores current date and time of note with note object
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     #foreign key ensures a valid id of an existing user is passed to this field.

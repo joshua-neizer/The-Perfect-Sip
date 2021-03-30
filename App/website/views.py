@@ -9,6 +9,7 @@ import requests
 from flask_cors import CORS
 
 
+
 #setup blueprint
 views = Blueprint('views',__name__)
 cors = CORS()
@@ -24,7 +25,11 @@ cors.init_app(views, resources={r"/*": {"origins": "*", "supports_credentials": 
 def home():
      
     temperature = request.form.get('select-temperature')
-    ledcolor = request.form.get('led-color')
+    perfect = request.form.get('P_RGB')
+    cold = request.form.get('C_RGB')
+    hot = request.form.get('H_RGB')
+    currTemp = request.form.get('temp')
+    tempRange = request.form.get('select-range')
     if(request.method == 'POST'):
         temperature = int(temperature)
         #lcolor = tuple(int(ledcolor[i:i+2], 16) for i in (0, 2, 4))
@@ -34,15 +39,16 @@ def home():
         if int(temperature) < 60:
             flash('Temperature too low!', category='error')
         else:
-            r = requests.post('http://184.148.145.47:5000/users', params={'user': current_user.first_name, 'des_temp': temperature, 'P_RGB' : ledcolor})
+            r = requests.post('http://184.148.145.47:5000/users', params={'user': current_user.first_name, 'des_temp': temperature, 'P_RGB' : perfect, 'C_RGB': cold, 'H_RGB': hot, 'select-range': tempRange, 'temp': currTemp})
             flash('Setting added!', category='success')
             
             
-            new_setting = Settings(temperature=temperature,ledcolor=ledcolor,user_id=current_user.id)
+            
+            new_setting = Settings(temperature=temperature,perfect=perfect,user_id=current_user.id, cold=cold, hot=hot)
             db.session.add(new_setting)
             db.session.commit()
             flash('Setting added!', category='success')
-            return render_template("home.html", user=current_user, temperature=temperature)
+            return render_template("home.html", user=current_user, temperature=temperature, perfect = perfect, cold = cold, hot = hot, currTemp = currTemp)
 
     if (request.method == 'GET'):
         r = requests.get('http://184.148.145.47:5000/users/Luke' )#+ current_user.first_name)
@@ -52,12 +58,7 @@ def home():
         current_vol = data['data']['volume']
         #current_amount = r.json.user
 
-        try:
-            name = current_user.first_name
-        except:
-            name = ""
-
-        return render_template("home.html", user=name, currTemp=current_temp, currVolume=current_vol)
+        return render_template("home.html", user=current_user, currTemp=current_temp, currVolume=current_vol)
 
         
     #, user=current_user, curTemp = temperature)

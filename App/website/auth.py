@@ -71,6 +71,6 @@ def sign_up():
             #login_user(user, remember=True)
             flash('Account created!', category='success')
             # views is the blueprint name and home is the function name that redirects to home page
-            return redirect(url_for('views.home'))
+            return redirect('/login')#url_for('views.home'))
 
     return render_template("sign-up.html", user=current_user)
