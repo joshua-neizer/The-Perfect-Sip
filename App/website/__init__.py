@@ -30,7 +30,7 @@ def create_app():
 
     login_manager = LoginManager()
     #redirect to auth.login is user is not logged in
-    login_manager.login_view = 'auth.login'
+    login_manager.login_view = 'auth.users'
     login_manager.init_app(app)
 
     @login_manager.user_loader

@@ -42,7 +42,7 @@ def login():
 def logout():
     logout_user()
     #signs out user and returns them to login page
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('auth.users'))
 
 
 @auth.route('/switch')
@@ -62,7 +62,7 @@ def users():
     #print(userList)
     if request.method == 'GET':
         
-        return render_template("users.html", user=current_user.first_name,users = users,length = length, emails = emails)#, users=current_user)
+        return render_template("users.html", user=current_user,users = users,length = length, emails = emails)#, users=current_user)
 
 
 @auth.route('/sign-up', methods=['GET','POST'])
@@ -85,6 +85,8 @@ def sign_up():
             flash('Passwords do not match', category='error')
         elif len(password1) < 7:
             flash('Password must be at least seven characters', category='error')
+        elif User.query.count() >=5:
+            flash('Reached total number of users', category = 'error')
         else: 
             #create new user
             new_user = User(email=email,first_name=firstName, password = generate_password_hash(password1, method='sha256'))
@@ -92,6 +94,7 @@ def sign_up():
             db.session.commit()
             #login_user(user, remember=True)
             flash('Account created!', category='success')
+            #r = requests.post('http://184.148.145.47:5000/users', params={'user': current_user.first_name})
             # views is the blueprint name and home is the function name that redirects to home page
             return redirect('/login')#url_for('views.home'))
 

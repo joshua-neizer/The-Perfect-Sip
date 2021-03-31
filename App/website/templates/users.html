@@ -3,14 +3,21 @@
 {% block content %}
     <div id="selected"></div>
     <body>
-    <button id="button0" style = border-radius: 70% type ="submit" class = "btn btn-primary" onClick="buttons(this.id)"></button><br> 
-    <button id="button1" style = border-radius: 70% type ="submit" class = "btn btn-primary" onClick="buttons(this.id)"></button><br>
-    <button id="button2" style = border-radius: 70% type ="submit" class = "btn btn-primary" onClick="buttons(this.id)"></button><br>
-    <button id="button3" style = border-radius: 70% type ="submit" class = "btn btn-primary" onClick="buttons(this.id)"></button><br>
-    <button id="button4" style = border-radius: 70% type ="submit" class = "btn btn-primary" onClick="buttons(this.id)"></button><br>
+    {% for i in range(5) %}
+    <button id="button{{i}}" type ="submit" class = "btn btn-primary" onClick="buttons(this.id)">
+        <button type="button" class = "close" onClick = "deleteUser({{user.id}})">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </button><br>
+    {% endfor %}
     <div id="users">
     </body>
 
+<!--
+    {% for i in range(5) %}
+    <button id="button4" type ="submit" class = "btn btn-primary" onClick="buttons(this.id)"></button><br>
+    {% endfor %}
+-->
 <!--
   {% for user in users %}
       <div>

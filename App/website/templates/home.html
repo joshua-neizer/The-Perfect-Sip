@@ -81,7 +81,7 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                 <input 
                     type="color" 
                     class="form-control LED-picker"
-                    name="led-color"
+                    name="C_RGB"
                     placeholder="Enter LED color in RGB format"
                     id="C_RGB"
                     value = {{cold}}
@@ -92,7 +92,7 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                 <input 
                     type="color" 
                     class="form-control LED-picker"
-                    name="led-color"
+                    name="P_RGB"
                     placeholder="Enter LED color in RGB format"
                     id="P_RGB"
                 />
@@ -102,7 +102,7 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                 <input 
                     type="color" 
                     class="form-control LED-picker"
-                    name="led-color"
+                    name="H_RGB"
                     placeholder="Enter LED color in RGB format"
                     id="H_RGB"
                 />
@@ -188,7 +188,20 @@ function fetch() {
 
     var funFact = coffeeFacts[Math.floor(Math.random() * coffeeFacts.length)];            
     document.getElementById("time").innerHTML = greeting;
+    /*
+    var i = 0;
+    function setInterval() {
+        document.getElementById("fact").innerHTML = coffeeFacts[i];
+        if (i == (coffeeFacts.length - 1)) {
+        i = 0;
+        //you can even clear interval here to make heading stay as last one in array
+        //cleanInterval(intervalId);
 
+        } else {
+            i++;
+        }
+    }, 4000)
+    */
     document.getElementById("fact").innerHTML = funFact;
     var user = '{{user.first_name}}'
     var url = 'http://184.148.145.47:5000/users/' + user;
