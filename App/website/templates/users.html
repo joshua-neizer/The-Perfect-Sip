@@ -1,0 +1,11 @@
+<!--extend the base template-->
+{% extends "base.html" %} {% block title %}USERS{% endblock %}
+{% block content %}
+<div id ="settings">
+{% for setting in user.settings %}   
+<div>
+<h4>Name : {{setting.name}}</h4>
+</div>
+{% endfor %}
+</div><br>
+{% endblock %}

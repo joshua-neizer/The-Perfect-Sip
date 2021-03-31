@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from .models import User
+from .models import User, Settings
 #allows to hash password so it is not stored in plain text
 #a hashing function is a one way function
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -11,6 +11,11 @@ auth = Blueprint('auth',__name__)
 
 #methods lists the type of requests this route can accept
 #when submit button is clicked, that is a post request that sends information to the server 
+@auth.route('/users')
+def users():
+    if request.method == 'GET':
+        return render_template("users.html", user=current_user)
+
 @auth.route('/login', methods=['GET','POST'])
 def login():
     if request.method == 'POST':
@@ -28,7 +33,7 @@ def login():
                 flash('Logged in successfully!', category='success')
                 #remember = True, stored in flask session so user doesn't have to constantly keep logging on
                 login_user(user, remember=True)
-                return redirect(url_for('views.home'))
+                return render_template("users.html", user=current_user)
             else:
                 flash('Incorrect password, try again', category='error')
         else:
@@ -50,6 +55,8 @@ def sign_up():
         firstName =request.form.get('firstName')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
+        user1 = request.form.get('user1')
+        user2 = request.form.get('user2')
 
         #query database to check if email already exists
         user = User.query.filter_by(email=email).first()
@@ -68,9 +75,15 @@ def sign_up():
             new_user = User(email=email,first_name=firstName, password = generate_password_hash(password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
+            new_user1 = Settings(name=user1,temperature=0,perfect="#ff00000", hot="#ff00000", cold="#ff00000", user_id = new_user.id)
+            db.session.add(new_user1)
+            db.session.commit()
+            new_user2 = Settings(name=user2,temperature=0,perfect="#ff00000", hot="#ff00000", cold="#ff00000", user_id = new_user.id)
+            db.session.add(new_user2)
+            db.session.commit()
             #login_user(user, remember=True)
             flash('Account created!', category='success')
             # views is the blueprint name and home is the function name that redirects to home page
-            return redirect('/login')#url_for('views.home'))
+            return render_template("login.html", user = current_user)
 
     return render_template("sign-up.html", user=current_user)

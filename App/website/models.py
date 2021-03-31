@@ -8,6 +8,7 @@ from sqlalchemy.sql import func
 
 class Settings(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(1000))
     temperature = db.Column(db.Integer)
     perfect = db.Column(db.String(1000))
     hot = db.Column(db.String(1000))
