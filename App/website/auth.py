@@ -94,8 +94,8 @@ def sign_up():
             db.session.commit()
             #login_user(user, remember=True)
             flash('Account created!', category='success')
-            #r = requests.post('http://184.148.145.47:5000/users', params={'user': current_user.first_name})
+            r = requests.post('http://184.148.145.47:5000/users', params={'user': firstName})
             # views is the blueprint name and home is the function name that redirects to home page
-            return redirect('/login')#url_for('views.home'))
+            return redirect('/switch')#url_for('views.home'))
 
     return render_template("sign-up.html", user=current_user)
