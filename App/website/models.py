@@ -29,3 +29,7 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(150))
     #stores all the notes that the user owns
     settings = db.relationship('Settings')
+
+
+
+

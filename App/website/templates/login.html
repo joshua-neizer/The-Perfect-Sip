@@ -6,6 +6,7 @@
     <div class="form-group">
         <label for="email">Email Address</label>
         <input 
+            readonly="true"
             type="email" 
             class="form-control"
             id="email" 
@@ -26,4 +27,18 @@
     <br />
     <button type ="submit" class = "btn btn-primary">Login</button>
 </form>
+
+<script>
+      
+            function buttons(c) {
+                //document.getElementById("users").innerHTML = "ID = "+clicked;
+                //var clicked = document.location.search.replace(/^.*?\=/, '');
+                var text = window.location.hash.substring(1);
+                console.log(text);
+                document.getElementById("email").placeholder = text;
+                document.getElementById("email").value = text;
+                //window.location.href = "/login"'#' + clicked;
+            }   
+            buttons();      
+        </script> 
 {% endblock %}

@@ -84,6 +84,7 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                     name="led-color"
                     placeholder="Enter LED color in RGB format"
                     id="C_RGB"
+                    value = {{cold}}
                 />
             </div>
             <div class="LED">
@@ -233,8 +234,9 @@ function fetch() {
         //const mon = data.user
         document.getElementById('temp').innerHTML = data.data.temperature + " °C";
         document.getElementById('vol').innerHTML = data.data.volume + " ml";
+
         //alert("YES!");
-        if (data.data.temperature === 20.9){
+        if (data.data.temperature === data.data.des_temp){
             //if (data.data.temperature === data.data.des_temp) {
             console.log("rgb"+data.data.P_RGB)
             document.getElementById('dot').style.color = "rgb"+data.data.P_RGB ;
@@ -245,12 +247,13 @@ function fetch() {
 
         }
 
-        if (data.data.temperature > 20.7) {
+        if (data.data.temperature > data.data.des_temp) {
             document.getElementById('dot').style.color = "rgb"+data.data.H_RGB ;
         }
 
-            if (data.data.temperature < 20.6) {
+            if (data.data.temperature < data.data.des_temp) {
             document.getElementById('dot').style.color = "rgb"+data.data.C_RGB ;
+            console.log(data.data.C_RGB)
         }
 
         

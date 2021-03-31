@@ -30,10 +30,12 @@ def home():
     hot = request.form.get('H_RGB')
     currTemp = request.form.get('temp')
     tempRange = request.form.get('select-range')
+    userList = User.query.all()
+    #print(perfect)
     if(request.method == 'POST'):
         temperature = int(temperature)
-        #lcolor = tuple(int(ledcolor[i:i+2], 16) for i in (0, 2, 4))
-
+        #pcolor = tuple(int(perfect[i:i+2], 16) for i in (0, 2, 4))
+        #print(pcolor)
         if int(temperature) > 80:
             flash('Temperature too high!', category='error')
         if int(temperature) < 60:
@@ -57,6 +59,7 @@ def home():
         current_temp = data['data']['temperature']
         current_vol = data['data']['volume']
         #current_amount = r.json.user
+
 
         return render_template("home.html", user=current_user, currTemp=current_temp, currVolume=current_vol)
 

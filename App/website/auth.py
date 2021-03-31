@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 #flask log in module
 from flask_login import login_user, login_required, logout_user, current_user
+import requests
 #setup blueprint
 auth = Blueprint('auth',__name__)
 
@@ -42,6 +43,27 @@ def logout():
     logout_user()
     #signs out user and returns them to login page
     return redirect(url_for('auth.login'))
+
+
+@auth.route('/switch')
+def users():
+    userList = User.query.all()
+    users = []
+    emails = []
+    for x in userList:
+        print(x.first_name)
+        users.append(str(x.first_name))
+    for x in userList:
+       
+        emails.append(str(x.email))
+
+    length = len(userList)
+    db.session.commit()
+    #print(userList)
+    if request.method == 'GET':
+        
+        return render_template("users.html", user=current_user.first_name,users = users,length = length, emails = emails)#, users=current_user)
+
 
 @auth.route('/sign-up', methods=['GET','POST'])
 def sign_up():
