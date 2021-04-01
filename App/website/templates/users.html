@@ -1,17 +1,20 @@
 <!--extend the base template-->
-{% extends "base.html" %} {% block title %}USERS{% endblock %}
+{% extends "base.html" %} {% block title %}Sign In{% endblock %}
 {% block content %}
-    <div id="selected"></div>
-    <body>
-    {% for i in range(5) %}
-    <button id="button{{i}}" type ="submit" class = "btn btn-primary" onClick="buttons(this.id)">
-        <button type="button" class = "close" onClick = "deleteUser({{user.id}})">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </button><br>
-    {% endfor %}
-    <div id="users">
-    </body>
+<body>
+    <div class="users">
+        {% for i in range(5) %}
+        <div class="user" id="userContainer{{i}}">
+            <button id="button{{i}}" type ="submit" class = "user btn btn-primary" onClick="buttons(this.id)">
+                <button type="button" class = "close" onClick = "deleteUser({{user.id}})">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </button>
+            <h3 class="user" id="user{{i}}"></h3>
+        </div>
+        {% endfor %}
+    </div>
+</body>
 
 <!--
     {% for i in range(5) %}
@@ -26,56 +29,59 @@
       </div>
   {% endfor %}
 -->
-  </div><br>
+<script>
+    var colorPalette = [
+        "#FCD0A1",
+        "#C4B1AE",
+        "#B4ADA3",
+        "#BFB59E",
+        "#CAB7A2",
+        "#858786"
+    ];
 
-  <script type="text/javascript">
-    //const users = $users
-    
-    function set() {
-        //const mon = data.user
-        var users = {{ users|tojson|safe }}//.replace('&#39;', '')
+    var users = {{ users|tojson|safe }}//.replace('&#39;', '')
+
+    function setupUsers(){
+        var createUser = false;
+        var name;
         var length = users.length
-        console.log(users)
-        console.log(length)
-        //users = {{users}}.replace('&#39;'', '');
-        //console.log(users)
-        for (i = 0; i < 5; i++) {
-            if (i<length) {
-                document.getElementById(`button${i}`).innerHTML = users[i]
+        for (i = 0; i < 5; i++){
+            if (i<length){
+                $(`#button${i}`).css('background-color', colorPalette[i]);
+                $(`#user${i}`).text(users [i]);
+                $(`#button${i}`).text(users [i] [0]);
+            } else {
+                if (!createUser){
+                    createUser = true;
+                    $(`#button${i}`).css('background-color', colorPalette[6]);
+                    $(`#user${i}`).text("Create User");
+                    $(`#button${i}`).text("+");
+                } else {
+                    $(`#userContainer${i}`).css('display', 'none');
+                }
             }
-            else{
-                document.getElementById(`button${i}`).innerHTML = "Create User"
-            }
-
+            
         }
-        //alert(data);
-        console.log('here')
     }
 
-    set();
-    
-    
-
-</script>
-
-<script>
       
-            function buttons(clicked) {
-                name = document.getElementById(clicked).innerHTML;
-                if (name === 'Create User') {
-                    window.location.href = "/sign-up" 
-                }
-                else{
-                    index = clicked.slice(-1)
-                    console.log(index)
-                    //user = User.query.filter_by(first_name=user).first()
-                    var emails = {{ emails|tojson|safe }}
-                    
-                    email = emails[index]
-                    console.log(email)
-                    window.location.href = "/login" +'#' + email;
-                }
-            }         
-        </script> 
+    function buttons(clicked) {
+        name = document.getElementById(clicked).innerHTML;
+        if (name === '+') {
+            window.location.href = "/sign-up" 
+        }
+        else{
+            index = clicked.slice(-1)
+            console.log(index)
+            //user = User.query.filter_by(first_name=user).first()
+            var emails = {{ emails|tojson|safe }}
+            
+            email = emails[index]
+            console.log(email)
+            window.location.href = "/login" +'#' + email;
+        }
+    }   
+    setupUsers();      
+</script> 
 
 {% endblock %}

@@ -2,6 +2,11 @@
     display: none;
 }
 
+:root {
+    --gold: #c4b583;  
+    --goldLite: #c4b583AA; 
+}
+
 .bg-dark {
     background-color: white !important;   
 }
@@ -81,7 +86,7 @@
 
 .container{
     font-family: 'Karla', sans-serif !important; 
-    padding-top: 100px;
+    padding: 100px 0px;
 
     -webkit-transition: all .25s ease-in-out;
       -moz-transition:  all .25s ease-in-out;
@@ -181,6 +186,33 @@ div.form-group{
     width: 150px;
     font-size: 25px;
     font-weight: 500;
+    border: 0px;
+    background-color: var(--gold);
+    -webkit-transition: all .5s ease-in-out;
+      -moz-transition:  all .5s ease-in-out;
+       -ms-transition:  all .5s ease-in-out;
+        -o-transition:  all .5s ease-in-out;
+           transition:  all .5s ease-in-out;
+    /* box-shadow: 2px 4px 5px rgb(0 0 0 / 20%); */
+}
+
+.btn-primary:hover{
+    filter: brightness(110%);
+    background-color: var(--gold);
+    border-color: inherit;
+}
+
+.btn-primary:focus{
+    border-color: var(--goldLite);
+    background-color: var(--gold);
+    filter: brightness(90%);
+    border-color: inherit;
+    /* box-shadow: 0 0 0 0 rgb(0 0 0 / 20%); */
+}
+
+.form-control:focus{
+    border-color: var(--goldLite) !important;
+    box-shadow: 0 0 0 0.2rem #c4b583aa;
 }
 
 div.temp-grid{
