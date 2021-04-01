@@ -7,6 +7,8 @@ from . import db
 #flask log in module
 from flask_login import login_user, login_required, logout_user, current_user
 import requests
+import json
+import flask
 #setup blueprint
 auth = Blueprint('auth',__name__)
 
@@ -99,3 +101,38 @@ def sign_up():
             return redirect('/login')#url_for('views.home'))
 
     return render_template("sign-up.html", user=current_user)
+
+
+@auth.route('/delete-user', methods=['GET','POST'])
+def delete_user():
+    #user = json.loads(request.data)
+    username = request.args.get('username')
+    data = request.get_json()
+    print(data)
+    #print(username)
+    #userId = user['userId']
+    user = User.query.get(username)
+    #print(user)
+    if user:
+        db.session.delete(user)
+        user.delete()
+        db.session.commit()
+    
+    userList = User.query.all()
+    users = []
+    emails = []
+    for x in userList:
+        #print(x.first_name)
+        users.append(str(x.first_name))
+    for x in userList:
+       
+        emails.append(str(x.email))
+
+    length = len(userList)
+    db.session.commit()
+    
+    #if request.method == 'GET':
+    return render_template("users.html", user=user,users = users,length = length, emails = emails)
+        
+
+    #return jsonify({})

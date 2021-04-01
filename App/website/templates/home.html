@@ -252,7 +252,7 @@ function fetch() {
         if (data.data.temperature === data.data.des_temp){
             //if (data.data.temperature === data.data.des_temp) {
             console.log("rgb"+data.data.P_RGB)
-            document.getElementById('dot').style.color = "rgb"+data.data.P_RGB ;
+            document.getElementById('dot').style.color = data.data.P_RGB ;
             if (alerted === false){
                 alert("Coffee Has Reached Desired Temperature. Enjoy Your Perfect Sip!");
                 alerted = true;
@@ -261,11 +261,11 @@ function fetch() {
         }
 
         if (data.data.temperature > data.data.des_temp) {
-            document.getElementById('dot').style.color = "rgb"+data.data.H_RGB ;
+            document.getElementById('dot').style.color = data.data.H_RGB ;
         }
 
             if (data.data.temperature < data.data.des_temp) {
-            document.getElementById('dot').style.color = "rgb"+data.data.C_RGB ;
+            document.getElementById('dot').style.color = data.data.C_RGB ;//"rgb"+data.data.C_RGB ;
             console.log(data.data.C_RGB)
         }
 

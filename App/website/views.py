@@ -74,18 +74,6 @@ def home():
 '''
 
 
-@views.route('/delete-user', methods=['POST'])
-def delete_user():
-    note = json.loads(request.data)
-    userId = user['userId']
-    user = User.query.get(userId)
-    if user:
-        db.session.delete(user)
-        db.session.commit()
-        
-
-    return jsonify({})
-
 
 
 

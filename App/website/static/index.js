@@ -1,4 +1,4 @@
-function deleteUser(userId){
+function deleted(userId){
     //send a request to backend to delete note
     fetch("/delete-user", {
         method : "POST",
