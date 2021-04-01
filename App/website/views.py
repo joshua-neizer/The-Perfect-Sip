@@ -23,7 +23,6 @@ cors.init_app(views, resources={r"/*": {"origins": "*", "supports_credentials": 
 @login_required
 #this function will run when user directs to /
 def home():
-     
     temperature = request.form.get('select-temperature')
     perfect = request.form.get('P_RGB')
     cold = request.form.get('C_RGB')
@@ -47,7 +46,7 @@ def home():
             db.session.add(new_setting)
             db.session.commit()
             flash('Setting added!', category='success')
-            return render_template("home.html", user=current_user, temperature=temperature, perfect = perfect, cold = cold, hot = hot, currTemp = currTemp)
+            return render_template("home.html", user=current_user, temperature=temperature, tempRange = tempRange, perfect = perfect, cold = cold, hot = hot, currTemp = currTemp)
 
     if (request.method == 'GET'):
         r = requests.get('http://184.148.145.47:5000/users/' + current_user.first_name)
@@ -60,7 +59,7 @@ def home():
 
         return render_template("home.html", user=current_user, currTemp=current_temp, currVolume=current_vol)
 
-        
+    return render_template("home.html", user=current_user, temperature=temperature,  tempRange = tempRange, perfect = perfect, cold = cold, hot = hot, currTemp = currTemp)
     #, user=current_user, curTemp = temperature)
 '''
     if(request.method == 'GET'):
@@ -74,7 +73,7 @@ def home():
 '''
 
 
-@views.route('/delete-user', methods=['POST'])
+@views.route('/delete-user', methods=['DELETE'])
 def delete_user():
     note = json.loads(request.data)
     userId = user['userId']
