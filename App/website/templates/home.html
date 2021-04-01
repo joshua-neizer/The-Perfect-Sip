@@ -206,20 +206,23 @@ function fetch() {
     var user = '{{user.first_name}}'
     var url = 'http://184.148.145.47:5000/users/' + user;
 
-    async function setColours(){
-        var LED_Response = await fetch(url);
+    async function setPreferences(){
+        var resp = await fetch(url);
         
-        var LED_data = await LED_Response.json();
-        LED_data = LED_data.data;
-        console.log(LED_data);
+        var preferences = await resp.json();
+        preferences = preferences.data;
 
-        $("#C_RGB").val(LED_data.C_RGB == null ? "#0000FF" : LED_data.C_RGB);
+        $("#select-temperature").val(preferences.des_temp == null ? 60 : preferences.des_temp);
+
+        $("#select-range").val(preferences.range == null ? 3 : preferences.range);
+
+        $("#C_RGB").val(preferences.C_RGB == null ? "#0000FF" : preferences.C_RGB);
         $("#C_RGB").trigger('change');
 
-        $("#P_RGB").val(LED_data.P_RGB == null ? "#00FF00" : LED_data.P_RGB);
+        $("#P_RGB").val(preferences.P_RGB == null ? "#00FF00" : preferences.P_RGB);
         $("#P_RGB").trigger('change');
 
-        $("#H_RGB").val(LED_data.H_RGB == null ? "#FF0000" : LED_data.H_RGB);
+        $("#H_RGB").val(preferences.H_RGB == null ? "#FF0000" : preferences.H_RGB);
         $("#H_RGB").trigger('change');
     }
 
@@ -275,7 +278,7 @@ function fetch() {
         //alert(data);
     }
 
-    setColours();
+    setPreferences();
     getTemp();
     //document.getTemp();
     setInterval(getTemp, 5000);
