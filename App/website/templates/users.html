@@ -6,7 +6,7 @@
         {% for i in range(5) %}
         <div class="user" id="userContainer{{i}}">
             <button id="button{{i}}" type ="submit" class = "user btn btn-primary" onClick="buttons(this.id)">
-                <button type="button" class = "close" onClick = "deleteUser({{user.id}})">
+                <button id="delete{{i}}" type="button" class = "close" onClick = "deleteUser({{user.id}})">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </button>
@@ -56,6 +56,8 @@
                     $(`#button${i}`).css('background-color', colorPalette[6]);
                     $(`#user${i}`).text("Create User");
                     $(`#button${i}`).text("+");
+                    $(`#user${i}`).css('color', '#afafaf');
+                    $(`#delete${i}`).css('display', 'none');
                 } else {
                     $(`#userContainer${i}`).css('display', 'none');
                 }
