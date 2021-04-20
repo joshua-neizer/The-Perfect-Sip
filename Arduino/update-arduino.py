@@ -3,9 +3,13 @@ import re
 
 def updateLine(name, value):
     if 'RGB' in name:
-        return 'int ' + name + '[] = {' + str(re.findall("[0-9]+, [0-9]+, [0-9]+", value)[0]) + '};\n'
+        return 'int ' + name + '[] = {' + hex_to_rgb(value) + '};\n'
     else:
         return 'int ' + name + ' = ' + str(value) + ';\n'
+
+def hex_to_rgb(hex):
+    rgb = tuple(int(hex.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))
+    return str(rgb)
 
 jsonFile = './preferences.json'
 ArduinoFile = './tps/tps.ino'

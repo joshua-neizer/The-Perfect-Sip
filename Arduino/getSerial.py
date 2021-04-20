@@ -25,10 +25,10 @@ while (True):
         # print(line)
         if "distance" in line:
             volume = calcVolume(int(line.split(" ") [2]), 5)
-            sensor ['volume'] = str(volume) + " ml"
+            sensor ['volume'] = volume
         elif "Celcius" in line:
             temp = round(float(line.split(" ") [1]), 1)
-            sensor ['temperature'] = str(temp) + " C"
+            sensor ['temperature'] = temp
         writeJSON(sensor)
 
     
