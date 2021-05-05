@@ -1,0 +1,118 @@
+<!--base template (theme of the website)-->
+
+<!DOCTYPE html> 
+<html>
+    <head>
+        <meta charset ="utf-8" />
+        <meta name = "viewport" content = "width=device-width, initial-scale=1"/>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            crossorigin="anonymous"
+        />
+        <link rel="icon" href="{{ url_for('static', filename='assets/icon.ico') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}?version=1.5"> 
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sign-in.css') }}?version=1.4"> 
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <title>{% block title %}Home{% endblock %}</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <button
+             class ="navbar-toggler" 
+             type ="button" 
+             data-toggle="collapse" 
+             data-target="#navbar"
+             onclick="expand();"
+             id="nav-button"
+            >
+            <div class="navbar-toggler-menu" onclick="menu(this);">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+            </div>
+            </button>
+            <!--navbar that can collapse-->
+            <div class="collapse navbar-collapse" id ="navbar">
+                <div class ="navbar-nav">
+                    {% if user.is_authenticated %}
+                    <a class = "nav-item nav-link id="switch" href="/switch">Switch User</a>
+                    <a class = "nav-item nav-link id="logout" href="/logout">Logout</a>
+                    {% else %}
+                    <a class = "nav-item nav-link" id="switch" href="/switch">Select User</a>
+                    {% endif %}
+                </div>
+            </div>
+            <h1 class="title">The Perfect Sip.</h1>
+        </nav>
+        {% with messages= get_flashed_messages(with_categories=true)%}
+        {% if messages %}
+            {% for category, message in messages %}
+            {% if category == 'error' %}
+            <div class = "alert alert-danger alert-dismissable fade show" role="alert">
+                {{ message }}
+                <button type = "button" class = "close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% else %}
+            <div class = "alert alert-success alert-dismissable fade show" role="alert">
+                {{ message }}
+                <button type = "button" class = "close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div class = "container" id="expand">
+            {% block content %}
+            
+            {% endblock %}
+        </div>
+        <script
+            src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"
+        ></script>
+      
+        <script
+            type="text/javascript"
+            src="{{ url_for('static', filename='index.js') }}"
+        ></script>
+        <script>
+            // Used to adjust the menu so that it can expand on page
+            function expand(){
+                if ( $("#expand").css("padding-top") == "100px"){
+                    $("#expand").css("padding-top", "200px");
+                } else {
+                    $("#expand").css("padding-top", "100px");
+                }
+            }
+
+            function menu(obj) {
+                obj.classList.toggle("change");
+            }
+        </script>
+    </body>
+</html>

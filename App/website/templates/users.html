@@ -1,0 +1,89 @@
+<!--extend the base template-->
+{% extends "base.html" %} {% block title %}Sign In{% endblock %}
+{% block content %}
+<body>
+    <div class="users">
+        {% for i in range(5) %}
+        <div class="user" id="userContainer{{i}}">
+            <button id="button{{i}}" type ="submit" class = "user btn btn-primary" onClick="buttons(this.id)">
+                <button id="delete{{i}}" type="button" class = "close" onClick = "deleteUser({{user.id}})">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </button>
+            <h3 class="user" id="user{{i}}"></h3>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+<!--
+    {% for i in range(5) %}
+    <button id="button4" type ="submit" class = "btn btn-primary" onClick="buttons(this.id)"></button><br>
+    {% endfor %}
+-->
+<!--
+  {% for user in users %}
+      <div>
+          
+          <button style = border-radius: 70% type ="submit" class = "btn btn-primary">{{ user.first_name }}</button>  
+      </div>
+  {% endfor %}
+-->
+<script>
+    var colorPalette = [
+        "#FCD0A1",
+        "#C4B1AE",
+        "#B4ADA3",
+        "#BFB59E",
+        "#CAB7A2",
+        "#858786"
+    ];
+
+    var users = {{ users|tojson|safe }}//.replace('&#39;', '')
+
+    function setupUsers(){
+        var createUser = false;
+        var name;
+        var length = users.length
+        for (i = 0; i < 5; i++){
+            if (i<length){
+                $(`#button${i}`).css('background-color', colorPalette[i]);
+                $(`#user${i}`).text(users [i]);
+                $(`#button${i}`).text(users [i] [0]);
+            } else {
+                if (!createUser){
+                    createUser = true;
+                    $(`#button${i}`).css('background-color', colorPalette[5]);
+                    $(`#user${i}`).text("Create User");
+                    $(`#button${i}`).text("+");
+                    $(`#user${i}`).css('color', '#afafaf');
+                    $(`#delete${i}`).css('display', 'none');
+                } else {
+                    $(`#userContainer${i}`).css('display', 'none');
+                }
+            }
+            
+        }
+    }
+
+      
+    function buttons(clicked) {
+        name = document.getElementById(clicked).innerHTML;
+        if (name === '+') {
+            window.location.href = "/sign-up" 
+        }
+        else{
+            index = clicked.slice(-1)
+            console.log(index)
+            //user = User.query.filter_by(first_name=user).first()
+            var emails = {{ emails|tojson|safe }}
+            
+            email = emails[index]
+            console.log(email)
+            window.location.href = "/login" +'#' + email;
+        }
+    }   
+    setupUsers();      
+</script> 
+
+{% endblock %}

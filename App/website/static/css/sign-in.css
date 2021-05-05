@@ -1,0 +1,67 @@
+div.users{
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    margin-bottom: 100px;
+}
+
+div.user{
+    width: 300px;
+    height: 300px;
+    display: flex;
+    margin: 10px;
+    position: relative;
+
+}
+
+button.user{
+    width: 200px !important;
+    height: 200px !important;
+    border-radius: 10rem !important;
+    font-size: 100px !important;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    margin: auto;
+    border: 0px !important;
+    background-color: #858786;
+    box-shadow: 6px 6px 8px rgb(0 0 0 / 20%);
+
+    -webkit-transition: all .5s ease-in-out;
+      -moz-transition:  all .5s ease-in-out;
+       -ms-transition:  all .5s ease-in-out;
+        -o-transition:  all .5s ease-in-out;
+           transition:  all .5s ease-in-out;
+}
+
+
+button.user:hover{
+    filter: brightness(110%);
+    box-shadow: 6px 6px 8px rgb(0 0 0 / 30%);
+}
+
+button.user:focus{
+    border: 0px !important;
+    filter: brightness(90%);
+    box-shadow: 6px 6px 8px rgb(0 0 0 / 30%);
+}
+
+button.close{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 30px;
+    font-size: 30px;
+}
+
+h3.user{
+    position: absolute;
+    bottom: -10px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}

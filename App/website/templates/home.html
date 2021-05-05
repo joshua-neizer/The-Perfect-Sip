@@ -1,0 +1,205 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %}
+{% block content %}
+
+<script type="text/javascript"
+src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+<h1 class="intro-message"><span id="time"></span> {{user.first_name}}!</h1> 
+<h4 class ="fact" style="text-align:center;font-size:30px;color:grey;border-radius: 50%;"> <span id="fact"></span></h4>
+<br></br>
+<div class="current-stats"> 
+    <h1 class="header">Currently.</h1> 
+    <div class="stats-grid">
+        <div class="stat">
+            <h1 class="stat-header">Temperature
+                <span id="tep"></span>
+            </h1>
+            <h4 id="temp" class="current-stat">{{currTemp}} °C</h4>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <style>
+                    .dot {
+                    height: 25px;
+                    width: 25px;
+                    background-color: #bbb;
+                    border-radius: 50%;
+                    display: inline-block;
+                    style="color:blue;"
+                    }
+                </style>
+            <div style="text-align:center">
+                <i id='dot' class="fa fa-circle" style="font-size:30px;color:red"></i>
+            </div>
+        </div>
+        <div class="stat">
+            <h1 class="stat-header">Volume
+                <span id="tep"></span>
+            </h1>
+            <h4 id="vol" class="current-stat">{{currVolume}} ml</h4>
+        </div>
+    </div>
+</div>
+
+<form method ="POST" style="padding-top:100px">
+    <h1 align="center" class="header">Update Preferences.</h1>
+    <div class="form-group">
+        <div class="temp-grid">
+            <div class="temp-range">
+                <label for="select-temperature">Set Temperature</label>
+                <input 
+                    type="number" 
+                    class="form-control"
+                    id="select-temperature" 
+                    name="select-temperature"
+                    placeholder="Select temperature"
+                    value="60"
+                />
+            </div>
+            <div class="temp-range">
+                <label for="select-range">Set Range</label>
+                <input 
+                    type="number" 
+                    class="form-control"
+                    id="select-range" 
+                    name="select-range"
+                    value="3"
+                />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="LED-grid">
+            <div class="LED">
+                <label for="led-color">Set <span style="color:dodgerblue">Cold</span> LED</label>
+                <input 
+                    type="color" 
+                    class="form-control LED-picker"
+                    name="C_RGB"
+                    placeholder="Enter LED color in RGB format"
+                    id="C_RGB"
+                    value = {{cold}}
+                />
+            </div>
+            <div class="LED">
+                <label for="led-color">Set <span style="color:#07ad07">Perfect</span> LED</label>
+                <input 
+                    type="color" 
+                    class="form-control LED-picker"
+                    name="P_RGB"
+                    placeholder="Enter LED color in RGB format"
+                    id="P_RGB"
+                />
+            </div>
+            <div class="LED">
+                <label for="led-color">Set <span style="color:red">High</span> LED</label>
+                <input 
+                    type="color" 
+                    class="form-control LED-picker"
+                    name="H_RGB"
+                    placeholder="Enter LED color in RGB format"
+                    id="H_RGB"
+                />
+            </div>
+        </div>
+    </div>
+
+    <div style="width:100%;margin:auto;text-align: center;">
+        <button type ="submit" class = "btn btn-primary">Confirm</button>    
+    </div>
+
+
+</script>
+-->
+</form>
+<script type="text/javascript">
+    var alerted = false;
+    var user = '{{user.first_name}}';
+    var url = 'http://192.168.2.100:5000/users/' + user;
+
+    // Displays information based on the time of the day
+    var time = new Date().getHours();
+    var greeting = 'Good '+ (time < 12 ? 'Morning' : 
+        time < 18 ? 'Afternoon' : 'Evening');
+
+    // Taks a random fun fact and displays it to the user
+    var coffeeFacts = ["Caffeine blocks an inhibitory neurotransmitter in your brain, which causes a stimulant effect. This improves energy levels, mood and various aspects of brain function.",
+                '"Several studies show that caffeine can increase fat burning and boost your metabolic rate."',
+                '"Caffeine can increase adrenaline levels and release fatty acids from your fat tissues."',
+                '"Coffee can lead to significant improvements in physical performance."',
+                '"Coffee contains several important nutrients, including riboflavin, pantothenic acid, manganese, potassium, magnesium and niacin."',
+                '"Several observational studies show that coffee drinkers have a much lower risk of type 2 diabetes, a serious condition that affects millions of people worldwide."',
+                '"Coffee drinkers have a much lower risk of getting Alzheimer’s disease, which is a leading cause of dementia worldwide."',
+                '"Coffee drinkers have up to a 60% lower risk of getting Parkinson’s disease"',
+                '"Coffee appears to lower your risk of developing depression"',
+                '"Coffee lowers the risk of getting liver and colorectal cancer"',
+                '"Coffee drinkers do not have an increased risk of heart disease and have a slightly lower risk of stroke."',
+                '"Coffee is rich in powerful antioxidants"',
+                '"Drinking coffee in moderation may protect against heart failure"']
+    var funFact = coffeeFacts[Math.floor(Math.random() * coffeeFacts.length)];            
+    
+    document.getElementById("time").innerHTML = greeting;
+    document.getElementById("fact").innerHTML = funFact;
+    
+    // Loads and displays the preferences set by the user
+    async function setPreferences(){
+        var resp = await fetch(url);
+        
+        var preferences = await resp.json();
+        preferences = preferences.data;
+
+        $("#select-temperature").val(preferences.des_temp == null ? 60 : preferences.des_temp);
+
+        $("#select-range").val(preferences.range == null ? 3 : preferences.range);
+
+        $("#C_RGB").val(preferences.C_RGB == null ? "#0000FF" : preferences.C_RGB);
+        $("#C_RGB").trigger('change');
+
+        $("#P_RGB").val(preferences.P_RGB == null ? "#00FF00" : preferences.P_RGB);
+        $("#P_RGB").trigger('change');
+
+        $("#H_RGB").val(preferences.H_RGB == null ? "#FF0000" : preferences.H_RGB);
+        $("#H_RGB").trigger('change');
+    }
+
+    // Gets the current temperature from the pod
+    async function getTemp() {
+        const header = {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'multipart/form-data'
+                //mode: 'no-cors'
+            }
+        };
+
+        var user = '{{user.first_name}}';
+        const response = await fetch(url);
+        const data = await response.json();
+
+        // Sets current temperature and volume readings for the user
+        document.getElementById('temp').innerHTML = data.data.temperature + " °C";
+        document.getElementById('vol').innerHTML = data.data.volume + " ml";
+
+        // Adjusts the color indicator for the temperature based on their preferences
+        // as well as the current temperature reading
+        if (data.data.temperature === data.data.des_temp){
+            console.log("rgb"+data.data.P_RGB)
+            document.getElementById('dot').style.color = data.data.P_RGB ;
+            if (alerted === false){
+                alert("Coffee Has Reached Desired Temperature. Enjoy Your Perfect Sip!");
+                alerted = true;
+            }
+        } else if (data.data.temperature > data.data.des_temp) {
+            document.getElementById('dot').style.color = data.data.H_RGB ;
+        } else {
+            document.getElementById('dot').style.color = data.data.C_RGB ;
+        }
+    }
+
+    setPreferences();
+    getTemp();
+    setInterval(getTemp, 5000);
+</script>
+{% endblock %}
