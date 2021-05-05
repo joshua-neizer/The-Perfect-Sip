@@ -5,8 +5,6 @@
     <head>
         <meta charset ="utf-8" />
         <meta name = "viewport" content = "width=device-width, initial-scale=1"/>
-        <!--import bootstrap: a css framework with built in classes-->
-        <!--link to cdn : a content delivery network-->
         <link
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -19,7 +17,7 @@
             crossorigin="anonymous"
         />
         <link rel="icon" href="{{ url_for('static', filename='assets/icon.ico') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}?version=1.4"> 
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}?version=1.5"> 
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sign-in.css') }}?version=1.4"> 
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,8 +25,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <title>{% block title %}Home{% endblock %}</title>
     </head>
-    <!--Define a navbar and load a bunch of scripts-->
-    <!--load the javascript related to bootstrap-->
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <button
@@ -49,13 +45,10 @@
             <div class="collapse navbar-collapse" id ="navbar">
                 <div class ="navbar-nav">
                     {% if user.is_authenticated %}
-                    <!--<a class = "nav-item nav-link id="home" href="/">Home</a> -->
                     <a class = "nav-item nav-link id="switch" href="/switch">Switch User</a>
                     <a class = "nav-item nav-link id="logout" href="/logout">Logout</a>
                     {% else %}
-                    <a class = "nav-item nav-link id="switch" href="/switch">Select User</a>
-                    <!--<a class = "nav-item nav-link id="login" href="/switch">Login</a>-->
-                    <!--<a class = "nav-item nav-link id="signUp" href="/sign-up">Sign Up</a>-->
+                    <a class = "nav-item nav-link" id="switch" href="/switch">Select User</a>
                     {% endif %}
                 </div>
             </div>
@@ -108,17 +101,18 @@
             src="{{ url_for('static', filename='index.js') }}"
         ></script>
         <script>
-        function expand(){
-            if ( $("#expand").css("padding-top") == "100px"){
-                $("#expand").css("padding-top", "200px");
-            } else {
-                $("#expand").css("padding-top", "100px");
+            // Used to adjust the menu so that it can expand on page
+            function expand(){
+                if ( $("#expand").css("padding-top") == "100px"){
+                    $("#expand").css("padding-top", "200px");
+                } else {
+                    $("#expand").css("padding-top", "100px");
+                }
             }
-        }
 
-        function menu(x) {
-            x.classList.toggle("change");
-        }
+            function menu(obj) {
+                obj.classList.toggle("change");
+            }
         </script>
     </body>
 </html>
