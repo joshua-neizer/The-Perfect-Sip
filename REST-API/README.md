@@ -25,14 +25,20 @@ Subsequent response definitions will only detail the expected value of the `data
 ```json
     [
         {
-            "user" : "Josh",
-            "temperature" : 72,
-            "LED": "red"
+            "user": "Yuji",
+            "des_temp": "62",
+            "range": "5",
+            "C_RGB": "(0, 0, 255)",
+            "P_RGB": "(0, 255, 0)",
+            "H_RGB": "(255, 0, 0)"
         },
         {
-            "user" : "Gon",
-            "temperature" : 69,
-            "LED": "oyster"
+            "user": "Todo",
+            "des_temp": "59",
+            "range": "3",
+            "C_RGB": "(255, 69, 0)",
+            "P_RGB": "(152, 251, 152)",
+            "H_RGB": "(255, 0, 255)"
         }
     ]
 ```
@@ -46,8 +52,11 @@ Subsequent response definitions will only detail the expected value of the `data
 **Arguments**
 
 - `"user":string` the username chosen for the user
-- `"temperature":integer` the temperature set for the hot beverage
-- `"LED":string` the desired colour for the LED
+- `"des_temp":integer` the desired temperature set for the hot beverage
+- `"range":integer` the range for the desired temperature
+- `"C_RGB":string` the LED colour that indicates the beverage is below the desired temperature
+- `"P_RGB":string` the LED colour that indicates the beverage is at the desired temperature
+- `"H_RGB":string` the LED colour that indicates the beverage is above the desired temperature
 
 **Response**
 
@@ -55,9 +64,12 @@ Subsequent response definitions will only detail the expected value of the `data
 
 ```json
 {
-    "user" : "Gon",
-    "temperature" : 68,
-    "LED": null,
+    "user": "Todo",
+    "des_temp": "59",
+    "range": "3",
+    "C_RGB": "(255, 69, 0)",
+    "P_RGB": "(152, 251, 152)",
+    "H_RGB": "(255, 0, 255)"
 }
 ```
 
@@ -73,8 +85,13 @@ Subsequent response definitions will only detail the expected value of the `data
 ```json
 {
     "user" : "Gon",
-    "temperature" : 69,
-    "LED": "oyster"
+    "des_temp": "63",
+    "range": "5",
+    "C_RGB": "(255, 69, 0)",
+    "P_RGB": "(152, 251, 152)",
+    "H_RGB": "(255, 0, 255)",
+    "temperature": "19.37 C",
+    "volume": "23 ml"
 }
 ```
 
